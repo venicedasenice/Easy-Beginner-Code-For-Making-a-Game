@@ -1,0 +1,45 @@
+local grabButton = Enum.KeyCode.E -- Change this to the desired grab button
+local throwButton = Enum.KeyCode.Q -- Change this to the desired throw button
+
+local player = game.Players.LocalPlayer
+local character = player.Character
+local humanoid = character:WaitForChild("Humanoid")
+
+local grabRange = 10 -- Adjust the range at which you can grab objects
+local grabbedObject = nil
+local isGrabbing = false
+
+local function onKeyPress(input)
+    if input.KeyCode == grabButton and not isGrabbing then
+        local rayOrigin = character:WaitForChild("HumanoidRootPart").Position
+        local rayDirection = character:WaitForChild("HumanoidRootPart").CFrame.LookVector
+        local raycastParams = RaycastParams.new()
+        raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+        raycastParams.FilterDescendantsInstances = {character} -- Exclude the player's character
+        local hitResult = workspace:Raycast(rayOrigin, rayDirection * grabRange, raycastParams)
+
+        if hitResult then
+            local hitPart = hitResult.Instance
+            if hitPart:IsA("Part") then
+                grabbedObject = hitPart
+                isGrabbing = true
+                grabbedObject.Anchored = true
+                grabbedObject.CanCollide = false
+                grabbedObject.Massless = true
+            end
+        end
+    elseif input.KeyCode == throwButton and isGrabbing then
+        if grabbedObject then
+            local throwForce = 500 -- Adjust the throwing force as needed
+            grabbedObject.Anchored = false
+            grabbedObject.CanCollide = true
+            grabbedObject.Massless = false
+            local throwDirection = character:WaitForChild("HumanoidRootPart").CFrame.LookVector
+            grabbedObject.Velocity = throwDirection * throwForce
+            grabbedObject = nil
+            isGrabbing = false
+        end
+    end
+end
+
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
