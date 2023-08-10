@@ -1,0 +1,31 @@
+-- Get the player and character
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Variables to control the roll animation
+local isRolling = false
+local rollAnimation = character:FindFirstChild("RollAnimation")
+
+-- Function to handle the roll action
+local function Roll()
+    if not isRolling and rollAnimation then
+        isRolling = true
+        rollAnimation:Play()
+
+        -- Wait for the animation to finish
+        local rollLength = rollAnimation.Length
+        wait(rollLength)
+
+        isRolling = false
+    end
+end
+
+-- Bind the roll function to a specific input (e.g., "q" key)
+local userInputService = game:GetService("UserInputService")
+local inputKeyCode = Enum.KeyCode.Q -- Change this to your desired input key
+
+userInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+    if not gameProcessedEvent and input.KeyCode == inputKeyCode then
+        Roll()
+    end
+end)
