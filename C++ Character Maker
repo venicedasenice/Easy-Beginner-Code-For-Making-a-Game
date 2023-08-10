@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+
+class Character {
+public:
+    std::string name;
+    std::string characterClass;
+    int strength;
+    int agility;
+    int intelligence;
+
+    Character() {
+        name = "";
+        characterClass = "";
+        strength = 0;
+        agility = 0;
+        intelligence = 0;
+    }
+};
+
+int main() {
+    Character player;
+
+    std::cout << "Character Maker System\n\n";
+    std::cout << "Enter character name: ";
+    std::getline(std::cin, player.name);
+
+    std::cout << "Select character class (Warrior/Mage/Rogue): ";
+    std::getline(std::cin, player.characterClass);
+
+    std::cout << "Allocate attribute points:\n";
+    std::cout << "Strength: ";
+    std::cin >> player.strength;
+
+    std::cout << "Agility: ";
+    std::cin >> player.agility;
+
+    std::cout << "Intelligence: ";
+    std::cin >> player.intelligence;
+
+    // Display character information
+    std::cout << "\nCharacter Created:\n";
+    std::cout << "Name: " << player.name << "\n";
+    std::cout << "Class: " << player.characterClass << "\n";
+    std::cout << "Strength: " << player.strength << "\n";
+    std::cout << "Agility: " << player.agility << "\n";
+    std::cout << "Intelligence: " << player.intelligence << "\n";
+
+    return 0;
+}
