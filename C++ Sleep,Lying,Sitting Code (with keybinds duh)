@@ -1,0 +1,75 @@
+#include <iostream>
+#include <chrono>
+#include <thread>
+#include <ncurses.h>  // Requires installation of the ncurses library
+
+void sleepAction() {
+    printw("Zzz... Sleeping...\n");
+    refresh();
+    // Sleep for 3 seconds
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    printw("Woke up!\n");
+    refresh();
+}
+
+void layAction() {
+    printw("Lying down...\n");
+    refresh();
+    // Sleep for 2 seconds
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    printw("Getting up!\n");
+    refresh();
+}
+
+void sitAction() {
+    printw("Sitting...\n");
+    refresh();
+    // Sleep for 1 second
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    printw("Standing up!\n");
+    refresh();
+}
+
+int main() {
+    initscr();  // Initialize ncurses
+    keypad(stdscr, TRUE);  // Enable keypad input
+    noecho();  // Do not display typed characters
+
+    int choice;
+
+    do {
+        clear();
+        printw("Select an action:\n");
+        printw("1. Sleep\n");
+        printw("2. Lay\n");
+        printw("3. Sit\n");
+        printw("4. Quit\n");
+        refresh();
+
+        choice = getch();  // Get a character from the keyboard
+
+        switch (choice) {
+            case '1':
+                sleepAction();
+                break;
+            case '2':
+                layAction();
+                break;
+            case '3':
+                sitAction();
+                break;
+            case '4':
+                printw("Goodbye!\n");
+                refresh();
+                break;
+            default:
+                printw("Invalid choice.\n");
+                refresh();
+        }
+    } while (choice != '4');
+
+    getch();  // Wait for a key press before exiting
+    endwin();  // Clean up ncurses
+
+    return 0;
+}
