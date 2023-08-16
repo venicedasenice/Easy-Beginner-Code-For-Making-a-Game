@@ -1,0 +1,53 @@
+(NOTICE:Make a New Part and Insert it into StarterPack
+Then Insert a Script into that part then replace that script with this code)
+local part = game:GetService("StarterPack"):FindFirstChild("Part")
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local debounce = false
+
+local function sleepAction()
+    if debounce then return end
+    debounce = true
+
+    print("Zzz... Sleeping...")
+    wait(3)
+    print("Woke up!")
+
+    debounce = false
+end
+
+local function layAction()
+    if debounce then return end
+    debounce = true
+
+    print("Lying down...")
+    wait(2)
+    print("Getting up!")
+
+    debounce = false
+end
+
+local function sitAction()
+    if debounce then return end
+    debounce = true
+
+    print("Sitting...")
+    wait(1)
+    print("Standing up!")
+
+    debounce = false
+end
+
+local function onKeyPress(input)
+    if input.KeyCode == Enum.KeyCode.P then
+        sleepAction()
+    elseif input.KeyCode == Enum.KeyCode.L then
+        layAction()
+    elseif input.KeyCode == Enum.KeyCode.S then
+        sitAction()
+    end
+end
+
+-- Connect the key press event
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
